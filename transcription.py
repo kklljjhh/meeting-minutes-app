@@ -58,7 +58,7 @@ def upload_audio(file_path):
     headers["X-CheckSum"] = hashlib.md5(sign_str.encode('utf-8')).hexdigest()
     
     # 发送上传请求
-    response = requests.post(UPLOAD_URL, headers=headers, data={})
+    response = requests.post(UPLOAD_URL, headers=headers, data={}, proxies={"http": None, "https": None})
     result = response.json()
     if result.get("code") == "0":
         return result.get("data")
@@ -80,7 +80,7 @@ def get_transcription(task_id):
     sign_str = APIKey + current_time + param_base64
     headers["X-CheckSum"] = hashlib.md5(sign_str.encode('utf-8')).hexdigest()
     
-    response = requests.get(GET_RESULT_URL, headers=headers)
+    response = requests.get(GET_RESULT_URL, headers=headers, proxies={"http": None, "https": None})
     result = response.json()
     if result.get("code") == "0":
         # 成功获取，返回包含文本的 data
